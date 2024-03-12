@@ -1,0 +1,36 @@
+.background {
+    height: auto;
+    width: auto;
+    background: linear-gradient(70deg, #daae4f, #665fa7, #bdaa4f, #665fa7);
+    background-size: 300% 300%;
+    animation: color 12s ease-in-out infinite;
+}
+
+@keyframes color {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    0% {
+        background-position: 0 50%;
+    }
+}
+
+body {
+    background-color:#a09b9b;
+    height: 100vh;
+}
+
+.image-text-container {
+    display: flex;
+    align-items: center; 
+    margin-top: 200px;/* if you want to align them vertically */
+    margin-left: 300px;
+}
+
+
+.Big_Logo {
+    margin-right: 20px; /* if you want some space between the image and the text */
+}

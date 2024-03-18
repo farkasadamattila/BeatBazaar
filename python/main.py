@@ -1,7 +1,9 @@
 from classes import *
 from os import system
-from list import *
 
+songs : list[Song] = []
+
+tours : list[Tour] = []
 
 def main():
     load_from_file("python\songs.csv")

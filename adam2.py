@@ -2,7 +2,7 @@ from adam import Song
 list_of_songs: list[Song] = []
 
 def main():
-    read_from_file('songs.csv')
+    read_from_file('python/songs.csv')
     
     def menu():
         while True:
@@ -56,7 +56,7 @@ def get_track_length():
     found = False
     for x in list_of_songs:
         if x.song_name == answer:
-            print(f'The length of the track is: {x.length_2}, and it was made by {x.artist_name}')
+            print(f'The length of the track is: {x.length}, and it was made by {x.artist_name}')
             found = True
             break
     if not found:
@@ -65,11 +65,11 @@ def get_track_length():
 def longest_song():
     longest = 0
     for x in list_of_songs:
-        if x.length_2 > longest:
-            longest = x.length_2
+        if x.length > longest:
+            longest = x.length
     for x in list_of_songs:
-        if x.length_2 == longest:
-            print(f'The longest song is: {x.song_name} by {x.artist_name} with a length of {x.length_2}')
+        if x.length == longest:
+            print(f'The longest song is: {x.song_name} by {x.artist_name} with a length of {x.length}')
 
 def shortest_song():
     shortest = 1000
@@ -78,7 +78,7 @@ def shortest_song():
             shortest = x.length
     for x in list_of_songs:
         if x.length == shortest:
-            print(f'The shortest song is: {x.song_name} by {x.artist_name} with a length of {x.length_2}')
+            print(f'The shortest song is: {x.song_name} by {x.artist_name} with a length of {x.length}')
 
 def get_genre():
     genre = input('Please enter the genre: ')
@@ -138,7 +138,7 @@ def search_by_artist():
     found = False
     for song in list_of_songs:
         if song.artist_name.lower() == artist.lower():
-            print(f'Song: {song.song_name}, Album: {song.album}, Track Number: {song.track_number}')
+            print(f'Song: {song.song_name}, Album: {song.album_name}, Track Number: {song.track_number}')
             found = True
     if not found:
         print('No songs found for the given artist.')
@@ -146,10 +146,14 @@ def search_by_artist():
 def delete_song():
     song_name = input('Please enter the name of the song you want to delete: ')
     found = False
-    for song in list_of_songs:
-        if song.song_name.lower() == song_name.lower():
-            list_of_songs.remove(song)
-            print(f'{song.song_name} by {song.artist_name} has been deleted.')
+    for x in list_of_songs:
+        if x.song_name.lower() == song_name.lower():
+            file = open('songs.csv', 'w', encoding='utf-8')
+            list_of_songs.remove(x)
+            file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
+            for y in list_of_songs:
+                file.write(f'{y.artist_name};{y.album_name};{y.song_name};{y.track_number};{y.genre};{y.year};{y .length};\n')
+            print(f'{x.song_name} by {x.artist_name} has been deleted.')
             found = True
             break
     if not found:
@@ -176,7 +180,7 @@ def sort_songs():
     with open(filename, 'w', encoding='utf-8') as file:
         file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
         for song in list_of_songs:
-            file.write(f'{song.artist_name},{song.album},{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
+            file.write(f'{song.artist_name},{song.album_name                                                                                                                        },{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
     print('Sorted songs saved to file successfully.')
 
 def update_song_info():
@@ -218,7 +222,7 @@ def update_song_info():
             length = input('Please enter the new length: ')
             
             song.artist_name = artist
-            song.album = album
+            song.album_name = album
             song.track_number = track_number
             song.genre = genre
             song.year = year
@@ -234,8 +238,7 @@ def update_song_info():
         with open('songs.csv', 'w', encoding='utf-8') as file:
             file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
             for song in list_of_songs:
-                if song.song_name.lower() != song_name.lower():
-                    file.write(f'{song.artist_name},{song.album},{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
+                    file.write(f'{song.artist_name};{song.album_name};{song.song_name};{song.track_number};{song.genre};{song.year};{song.length}\n')
         print('Updated songs saved to file successfully.')
 
 main()

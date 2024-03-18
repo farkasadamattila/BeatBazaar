@@ -135,26 +135,40 @@ def add_song(filename:str):
     artist = input('Please enter the artist: ')
     album = input('Please enter the album: ')
     song = input('Please enter the song: ')
-    track_number = input('Please enter the track number: ')
-    
+
+    while True:
+        track_number = input('Please enter the track number: ')
+        if is_valid_track_number(track_number):
+            break
+
     while True:
         genre = input('Please enter the genre: ')
         if is_valid_genre(genre):
             break
-        else:
-            print('Invalid genre. Please try again.')
     
     while True:
         year = input('Please enter the year: ')
         if is_valid_year(year):
             break
-        else:
-            print('Invalid year. Please try again.')
     
     length = input('Please enter the length: ')
     with open(filename, 'a', encoding='utf-8') as file:
         file.write(f'{artist};{album};{song};{track_number};{genre};{year};{length}\n')
     file.close()
+
+def is_valid_genre(genre: str) -> bool:
+    existing_genres = ['rock', 'pop', 'hip-hop', 'jazz', 'country', 'classical']
+    if genre.lower() in existing_genres:
+        return True
+    else:
+        print('Invalid genre. Please try again.')
+        return False
+    
+def is_valid_track_number(track_number: str) -> bool:
+    if not track_number.isnumeric():
+        print('Invalid track number. Please try again.')
+        return False
+    return True
 
 def is_valid_genre(genre: str) -> bool:
     existing_genres = ['rock', 'pop', 'hip-hop', 'jazz', 'country', 'classical']
@@ -225,8 +239,14 @@ def sort_songs():
     with open(filename, 'w', encoding='utf-8') as file:
         file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
         for song in list_of_songs:
-            file.write(f'{song.artist_name},{song.album_name                                                                                                                        },{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
+            file.write(f'{song.artist_name},{song.album_name},{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
     print('Sorted songs saved to file successfully.')
+
+def is_valid_track_number(track_number: str) -> bool:
+    if not track_number.isnumeric():
+        print('Invalid track number. Please try again.')
+        return False
+    return True
 
 def update_song_info():
     song_name = input('Please enter the name of the song you want to update: ')

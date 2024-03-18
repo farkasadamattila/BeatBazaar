@@ -90,21 +90,21 @@ def add_song(filename:str):
     artist = input('Please enter the artist: ')
     album = input('Please enter the album: ')
     song = input('Please enter the song: ')
-    track_number = input('Please enter the track number: ')
-    
+
+    while True:
+        track_number = input('Please enter the track number: ')
+        if is_valid_track_number(track_number):
+            break
+
     while True:
         genre = input('Please enter the genre: ')
         if is_valid_genre(genre):
             break
-        else:
-            print('Invalid genre. Please try again.')
     
     while True:
         year = input('Please enter the year: ')
         if is_valid_year(year):
             break
-        else:
-            print('Invalid year. Please try again.')
     
     length = input('Please enter the length: ')
     with open(filename, 'a', encoding='utf-8') as file:
@@ -118,6 +118,12 @@ def is_valid_genre(genre: str) -> bool:
     else:
         print('Invalid genre. Please try again.')
         return False
+    
+def is_valid_track_number(track_number: str) -> bool:
+    if not track_number.isnumeric():
+        print('Invalid track number. Please try again.')
+        return False
+    return True
 
 def is_valid_year(year: str) -> bool:
     while True:

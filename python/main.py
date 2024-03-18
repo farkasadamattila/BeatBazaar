@@ -1,55 +1,100 @@
-from adam import Song
-list_of_songs: list[Song] = []
+from classes import *
+from os import system
+
+list_of_songs : list[Song] = []
+
+tours : list[Tour] = []
 
 def main():
-    read_from_file('python/songs.csv')
-    
-    def menu():
-        while True:
-            print("\t1. Get track length")
-            print("\t2. Find longest song")
-            print("\t3. Find shortest song")
-            print("\t4. Get songs by genre")
-            print("\t5. Add a new song")
-            print("\t6. Search songs by artist")
-            print("\t7. Delete a song")
-            print("\t8. Sort songs")
-            print("\t9. Update song information")
-            print("\t0. Exit")
-            
-            choice = input("Please enter your choice: ")
-            
-            if choice == "1":
-                get_track_length()
-            elif choice == "2":
-                longest_song()
-            elif choice == "3":
-                shortest_song()
-            elif choice == "4":
-                get_genre()
-            elif choice == "5":
-                add_song('songs.csv')
-            elif choice == "6":
-                search_by_artist()
-            elif choice == "7":
-                delete_song()
-            elif choice == "8":
-                sort_songs()
-            elif choice == "9":
-                update_song_info()
-            elif choice == "0":
-                break
-            else:
-                print("Invalid choice. Please try again.")
+    load_from_file("python\songs.csv")
+    load_from_file("python\\tour.csv")
+    kilep = False
+    while kilep == False:
+        base_menu()
+        option = int(choose_opton())
+        kilep = sub_menu(option)
+        if kilep == False:
+            print()
+            input("Tovább...")
 
-    menu()
 
-def read_from_file(filename: str) -> None:
-    with open(filename, 'r', encoding='utf-8') as file:
-        file.readline()
-        for row in file:
-            list_of_songs.append(Song(row))
+def load_from_file(filename:str):
+    file = open(filename, "r", encoding="utf8")
+    file.readline()
+    match filename:
+        case "python\songs.csv":
+            for row in file:
+                if row == "":
+                    break
+                else:
+                    list_of_songs.append(Song(row))
+        case "python\\tour.csv":
+            for row in file:
+                if row == "":
+                    break
+                else:
+                   tours.append(Tour(row))
     file.close()
+
+def base_menu():
+    system("cls")
+    print("BeatBazár")
+    print()
+    print("\t1. Get track length")
+    print("\t2. Find longest song")
+    print("\t3. Find shortest song")
+    print("\t4. Get songs by genre")
+    print("\t5. Add a new song")
+    print("\t6. Search songs by artist")
+    print("\t7. Delete a song")
+    print("\t8. Sort songs")
+    print("\t9. Update song information")
+    print("\t0. Exit")
+    print()
+
+def choose_opton() -> int:
+    chosen :str = input("Választás: ")
+    if chosen.isnumeric():
+        chosen = int(chosen)
+        if chosen < 10 or chosen > 0:
+            return chosen
+        else:
+            print("Csak olyan számokat fogad el amik 10 és 0 között vannak1.")
+            input("Tovább... ")
+            base_menu()
+            chosen = choose_opton()
+    else:
+        print("Csak olyan számokat fogad el amik 10 és 0 között vannak2.")
+        input("Tovább... ")
+        base_menu()
+        chosen = choose_opton()
+
+def sub_menu(choice: int) -> bool:
+    '''
+    Ide írd be a function-t abba a case-be (int) amelyik menupontban van.
+    '''
+    system('cls')
+    if choice == 1:
+        get_track_length()
+    elif choice == 2:
+        longest_song()
+    elif choice == 3:
+        shortest_song()
+    elif choice == 4:
+        get_genre()
+    elif choice == 5:
+        add_song('python\songs.csv')
+    elif choice == 6:
+        search_by_artist()
+    elif choice == 7:
+        delete_song()
+    elif choice == 8:
+        sort_songs()
+    elif choice == 9:
+        update_song_info()
+    elif choice == 0:
+        return True
+    return False
 
 def get_track_length():
     answer = input('Please enter the name of the track: ')
@@ -125,6 +170,14 @@ def is_valid_track_number(track_number: str) -> bool:
         return False
     return True
 
+def is_valid_genre(genre: str) -> bool:
+    existing_genres = ['rock', 'pop', 'hip-hop', 'jazz', 'country', 'classical']
+    if genre.lower() in existing_genres:
+        return True
+    else:
+        print('Invalid genre. Please try again.')
+        return False
+
 def is_valid_year(year: str) -> bool:
     while True:
         if not year.isdigit():
@@ -186,8 +239,14 @@ def sort_songs():
     with open(filename, 'w', encoding='utf-8') as file:
         file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
         for song in list_of_songs:
-            file.write(f'{song.artist_name},{song.album_name                                                                                                                        },{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
+            file.write(f'{song.artist_name},{song.album_name},{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
     print('Sorted songs saved to file successfully.')
+
+def is_valid_track_number(track_number: str) -> bool:
+    if not track_number.isnumeric():
+        print('Invalid track number. Please try again.')
+        return False
+    return True
 
 def update_song_info():
     song_name = input('Please enter the name of the song you want to update: ')
@@ -246,5 +305,6 @@ def update_song_info():
             for song in list_of_songs:
                     file.write(f'{song.artist_name};{song.album_name};{song.song_name};{song.track_number};{song.genre};{song.year};{song.length}\n')
         print('Updated songs saved to file successfully.')
+
 
 main()

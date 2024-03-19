@@ -11,12 +11,11 @@ def main():
     kilep = False
     while kilep == False:
         base_menu()
-        option = int(choose_opton())
+        option = choose_opton()
         kilep = sub_menu(option)
         if kilep == False:
             print()
-            input("Tovább...")
-
+            input("Continue...")
 
 def load_from_file(filename:str):
     file = open(filename, "r", encoding="utf8")
@@ -53,26 +52,12 @@ def base_menu():
     print()
 
 def choose_opton() -> int:
-    chosen :str = input("Választás: ")
-    if chosen.isnumeric():
-        chosen = int(chosen)
-        if chosen < 10 or chosen > 0:
-            return chosen
-        else:
-            print("Csak olyan számokat fogad el amik 10 és 0 között vannak1.")
-            input("Tovább... ")
-            base_menu()
-            chosen = choose_opton()
-    else:
-        print("Csak olyan számokat fogad el amik 10 és 0 között vannak2.")
-        input("Tovább... ")
-        base_menu()
-        chosen = choose_opton()
+    while True:
+        chosen :str = input("Choice: ")
+        if chosen.isdigit() and int(chosen) <= 10 and int(chosen) >= 0:
+            return int(chosen)
 
 def sub_menu(choice: int) -> bool:
-    '''
-    Ide írd be a function-t abba a case-be (int) amelyik menupontban van.
-    '''
     system('cls')
     if choice == 1:
         get_track_length()
@@ -83,7 +68,7 @@ def sub_menu(choice: int) -> bool:
     elif choice == 4:
         get_genre()
     elif choice == 5:
-        add_song('python\songs.csv')
+        add_song('songs.csv')
     elif choice == 6:
         search_by_artist()
     elif choice == 7:
@@ -179,18 +164,15 @@ def is_valid_genre(genre: str) -> bool:
         return False
 
 def is_valid_year(year: str) -> bool:
-    while True:
-        if not year.isdigit():
-            print('Invalid year. Please try again.')
-            year = input('Please enter the year: ')
-            continue
-        year = int(year)
-        if year > 2024 or year < 1900:
-            print('Invalid year. Please try again.')
-            year = input('Please enter the year: ')
-        else:
-            break
-    return True
+    if not year.isdigit():
+        print('Invalid year. Please try again.')
+        return False
+    year = int(year)
+    if year > 2024 or year < 1900:
+        print('Invalid year. Please try again.')
+        return False
+    else:  
+        return True
 
 def search_by_artist():
     artist = input('Please enter the artist name: ')
@@ -207,7 +189,7 @@ def delete_song():
     found = False
     for x in list_of_songs:
         if x.song_name.lower() == song_name.lower():
-            file = open('songs.csv', 'w', encoding='utf-8')
+            file = open('python\songs.csv', 'w', encoding='utf-8')
             list_of_songs.remove(x)
             file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
             for y in list_of_songs:

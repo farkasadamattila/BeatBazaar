@@ -68,7 +68,7 @@ def sub_menu(choice: int) -> bool:
     elif choice == 4:
         get_genre()
     elif choice == 5:
-        add_song('songs.csv')
+        add_song('python/songs.csv')
     elif choice == 6:
         search_by_artist()
     elif choice == 7:
@@ -86,7 +86,7 @@ def get_track_length():
     found = False
     for x in list_of_songs:
         if x.song_name == answer:
-            print(f'The length of the track is: {x.length}, and it was made by {x.artist_name}')
+            print(f'The length of the track is: {x.minutes}:{x.seconds}, and it was made by {x.artist_name}')
             found = True
             break
     if not found:
@@ -95,19 +95,19 @@ def get_track_length():
 def longest_song():
     longest = 0
     for x in list_of_songs:
-        if x.length > longest:
-            longest = x.length
+        if x.length_2 > longest:
+            longest = x.length_2
     for x in list_of_songs:
-        if x.length == longest:
+        if x.length_2 == longest:
             print(f'The longest song is: {x.song_name} by {x.artist_name} with a length of {x.length}')
 
 def shortest_song():
     shortest = 1000
     for x in list_of_songs:
-        if x.length < shortest:
-            shortest = x.length
+        if x.length_2 < shortest:
+            shortest = x.length_2
     for x in list_of_songs:
-        if x.length == shortest:
+        if x.length_2 == shortest:
             print(f'The shortest song is: {x.song_name} by {x.artist_name} with a length of {x.length}')
 
 def get_genre():
@@ -156,7 +156,7 @@ def is_valid_track_number(track_number: str) -> bool:
     return True
 
 def is_valid_genre(genre: str) -> bool:
-    existing_genres = ['rock', 'pop', 'hip-hop', 'jazz', 'country', 'classical']
+    existing_genres = ['rock', 'pop', 'hip-hop', 'jazz', 'country', 'classical', 'phonk']
     if genre.lower() in existing_genres:
         return True
     else:
@@ -218,7 +218,7 @@ def sort_songs():
     print('Songs sorted successfully.')
     
     filename = input('Please enter the filename to save the sorted songs: ')
-    with open(filename, 'w', encoding='utf-8') as file:
+    with open(filename+".csv", 'w', encoding='utf-8') as file:
         file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
         for song in list_of_songs:
             file.write(f'{song.artist_name},{song.album_name},{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
@@ -282,7 +282,7 @@ def update_song_info():
     if not found:
         print('Song not found.')
     else:
-        with open('songs.csv', 'w', encoding='utf-8') as file:
+        with open('python/songs.csv', 'w', encoding='utf-8') as file:
             file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
             for song in list_of_songs:
                     file.write(f'{song.artist_name};{song.album_name};{song.song_name};{song.track_number};{song.genre};{song.year};{song.length}\n')
@@ -290,3 +290,4 @@ def update_song_info():
 
 
 main()
+

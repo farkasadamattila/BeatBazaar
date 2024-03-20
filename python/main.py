@@ -1,6 +1,8 @@
 from classes import *
 from os import system
 
+
+
 list_of_songs : list[Song] = []
 
 tours : list[Tour] = []
@@ -37,8 +39,14 @@ def load_from_file(filename:str):
 
 def base_menu():
     system("cls")
-    print("BeatBazár")
-    print()
+    print('''__________                   __________                                     
+\______   \ ____ _____ ______\______   \_____  _____________  _____ _______ 
+|    |  _// __ \\__  \\_  __ \    |  _/\__  \ \___   /\__  \ \__  \\\_  __  \\\\\\
+|    |   \  ___/ / __ \|  | \/    |   \ / __ \_/    /  / __ \_/ __ \|  | \/
+|______  /\___  >____  /__|  |______  /(____  /_____ \(____  (____  /__|   
+        \/     \/     \/             \/      \/      \/     \/     \/       ''')
+    print("Welcome to the music database")
+    print("Main menu:")
     print("\t1. Get track length")
     print("\t2. Find longest song")
     print("\t3. Find shortest song")
@@ -49,6 +57,7 @@ def base_menu():
     print("\t8. Sort songs")
     print("\t9. Update song information")
     print("\t0. Exit")
+    print("\t10. Get track number")
     print()
 
 def choose_opton() -> int:
@@ -78,7 +87,10 @@ def sub_menu(choice: int) -> bool:
     elif choice == 9:
         update_song_info()
     elif choice == 0:
+        print("Goodbye!")
         return True
+    elif choice == 10:
+        get_track_number()
     return False
 
 def get_track_length():
@@ -111,7 +123,10 @@ def shortest_song():
             print(f'The shortest song is: {x.song_name} by {x.artist_name} with a length of {x.length}')
 
 def get_genre():
-    genre = input('Please enter the genre: ')
+    while True:
+        genre = input('Please enter the genre: ')
+        if is_valid_genre(genre):
+            break
     for x in list_of_songs:
         if x.genre == genre:
             print(f'{x.song_name} by {x.artist_name}')
@@ -288,6 +303,16 @@ def update_song_info():
                     file.write(f'{song.artist_name};{song.album_name};{song.song_name};{song.track_number};{song.genre};{song.year};{song.length}\n')
         print('Updated songs saved to file successfully.')
 
+def get_track_number():
+    given_song = input('Please enter the desired song: ')
+    found = False
+    for x in list_of_songs:
+        if x.song_name == given_song:
+            print(f'\nTrack number: {x.track_number}\nArtist: {x.artist_name}\nAlbum: {x.album_name}')
+            found = True
+    if not found:
+        print('No songs found for the given track number.')
+        
 
 main()
 

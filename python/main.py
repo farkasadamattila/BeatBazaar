@@ -1,50 +1,47 @@
-from classes import *
+from classes import Song, Tour
 from os import system
 
-
-
-list_of_songs : list[Song] = []
-
-tours : list[Tour] = []
+list_of_songs: list[Song] = []
+tours: list[Tour] = []
 
 def main():
-    load_from_file("python\songs.csv")
-    load_from_file("python\\tour.csv")
+    load_from_file("python/songs.csv")
+    load_from_file("python/tour.csv")
     kilep = False
-    while kilep == False:
+    while not kilep:
         base_menu()
-        option = choose_opton()
+        option = choose_option()
         kilep = sub_menu(option)
-        if kilep == False:
+        if not kilep:
             print()
             input("Continue...")
 
-def load_from_file(filename:str):
-    file = open(filename, "r", encoding="utf8")
-    file.readline()
-    match filename:
-        case "python\songs.csv":
+def load_from_file(filename: str):
+    with open(filename, "r", encoding="utf8") as file:
+        file.readline()
+        if filename == "python/songs.csv":
             for row in file:
                 if row == "":
                     break
                 else:
                     list_of_songs.append(Song(row))
-        case "python\\tour.csv":
+        elif filename == "python/tour.csv":
             for row in file:
                 if row == "":
                     break
                 else:
-                   tours.append(Tour(row))
-    file.close()
+                    tours.append(Tour(row))
 
 def base_menu():
     system("cls")
-    print('''__________                   __________                                     
-\______   \ ____ _____ ______\______   \_____  _____________  _____ _______ 
-|    |  _// __ \\__  \\_  __ \    |  _/\__  \ \___   /\__  \ \__  \\\_  __  \\\\\\
-|    |   \  ___/ / __ \|  | \/    |   \ / __ \_/    /  / __ \_/ __ \|  | \/
-|______  /\___  >____  /__|  |______  /(____  /_____ \(____  (____  /__|   
-        \/     \/     \/             \/      \/      \/     \/     \/       ''')
+    print('''
+    __________               __    __________                                     
+    \______   \ ____ _____ _/  |_  \______   \_____  _____________  _____ _______ 
+    |    |  _// __ \\\\__  \\\   __\  |    |  _/\__  \ \___   /\__  \ \__  \\\_  __ \\\\
+    |    |   \  ___/ / __ \|  |    |    |   \ / __ \_/    /  / __ \_/ __ \|  | \/
+    |______  /\___  >____  /__|    |______  /(____  /_____ \(____  (____  /__|   
+            \/     \/     \/               \/      \/      \/     \/     \/       
+        ''')
     print("Welcome to the music database")
     print("Main menu:")
     print("\t1. Get track length")
@@ -56,14 +53,14 @@ def base_menu():
     print("\t7. Delete a song")
     print("\t8. Sort songs")
     print("\t9. Update song information")
-    print("\t0. Exit")
     print("\t10. Get track number")
+    print("\t0. Exit")
     print()
 
-def choose_opton() -> int:
+def choose_option() -> int:
     while True:
-        chosen :str = input("Choice: ")
-        if chosen.isdigit() and int(chosen) <= 10 and int(chosen) >= 0:
+        chosen = input("Choice: ")
+        if chosen.isdigit() and 0 <= int(chosen) <= 10:
             return int(chosen)
 
 def sub_menu(choice: int) -> bool:
@@ -96,9 +93,9 @@ def sub_menu(choice: int) -> bool:
 def get_track_length():
     answer = input('Please enter the name of the track: ')
     found = False
-    for x in list_of_songs:
-        if x.song_name == answer:
-            print(f'The length of the track is: {x.minutes}:{x.seconds}, and it was made by {x.artist_name}')
+    for song in list_of_songs:
+        if song.song_name == answer:
+            print(f'The length of the track is: {song.minutes}:{song.seconds}, and it was made by {song.artist_name}')
             found = True
             break
     if not found:
@@ -106,32 +103,23 @@ def get_track_length():
 
 def longest_song():
     longest = 0
-    for x in list_of_songs:
-        if x.length_2 > longest:
-            longest = x.length_2
-    for x in list_of_songs:
-        if x.length_2 == longest:
-            print(f'The longest song is: {x.song_name} by {x.artist_name} with a length of {x.length}')
+    for song in list_of_songs:
+        if song.length_2 > longest:
+            longest = song.length_2
+    for song in list_of_songs:
+        if song.length_2 == longest:
+            print(f'The longest song is: {song.song_name} by {song.artist_name} with a length of {song.length}')
 
 def shortest_song():
     shortest = 1000
-    for x in list_of_songs:
-        if x.length_2 < shortest:
-            shortest = x.length_2
-    for x in list_of_songs:
-        if x.length_2 == shortest:
-            print(f'The shortest song is: {x.song_name} by {x.artist_name} with a length of {x.length}')
+    for song in list_of_songs:
+        if song.length_2 < shortest:
+            shortest = song.length_2
+    for song in list_of_songs:
+        if song.length_2 == shortest:
+            print(f'The shortest song is: {song.song_name} by {song.artist_name} with a length of {song.length}')
 
-def get_genre():
-    while True:
-        genre = input('Please enter the genre: ')
-        if is_valid_genre(genre):
-            break
-    for x in list_of_songs:
-        if x.genre == genre:
-            print(f'{x.song_name} by {x.artist_name}')
-
-def add_song(filename:str):
+def add_song(filename: str):
     artist = input('Please enter the artist: ')
     album = input('Please enter the album: ')
     song = input('Please enter the song: ')
@@ -143,40 +131,43 @@ def add_song(filename:str):
 
     while True:
         genre = input('Please enter the genre: ')
-        if is_valid_genre(genre):
-            break
+        if not is_valid_genre(genre):
+            print('Invalid genre. Please try again.')
+            continue
+        break
     
     while True:
         year = input('Please enter the year: ')
         if is_valid_year(year):
             break
-    
     length = input('Please enter the length: ')
+    
     with open(filename, 'a', encoding='utf-8') as file:
         file.write(f'{artist};{album};{song};{track_number};{genre};{year};{length}\n')
-    file.close()
+
+def get_genre():
+    existing_genres = ['Rock', 'Pop', 'Hip-Hop', 'Grunge', 'Metal', 'Techno', 'Jazz', 'Phonk', 'Country', 'Classical']
+    while True:
+        genre = input('Please enter the genre: ')
+        if genre not in existing_genres:
+            print('Invalid genre. Please try again.')
+        else:  
+            for song in list_of_songs:
+                if song.genre.lower() == genre.lower():
+                    print(f'Song: {song.song_name}, Artist: {song.artist_name}')
+            break
 
 def is_valid_genre(genre: str) -> bool:
-    existing_genres = ['rock', 'pop', 'hip-hop', 'jazz', 'country', 'classical']
-    if genre.lower() in existing_genres:
-        return True
-    else:
-        print('Invalid genre. Please try again.')
+    existing_genres = ['Rock', 'Pop', 'Hip-Hop', 'Grunge', 'Metal', 'Techno', 'Jazz', 'Phonk', 'Country', 'Classical']
+    if genre not in existing_genres:
         return False
-    
+    return True
+
 def is_valid_track_number(track_number: str) -> bool:
     if not track_number.isnumeric():
         print('Invalid track number. Please try again.')
         return False
     return True
-
-def is_valid_genre(genre: str) -> bool:
-    existing_genres = ['rock', 'pop', 'hip-hop', 'jazz', 'country', 'classical', 'phonk']
-    if genre.lower() in existing_genres:
-        return True
-    else:
-        print('Invalid genre. Please try again.')
-        return False
 
 def is_valid_year(year: str) -> bool:
     if not year.isdigit():
@@ -186,8 +177,7 @@ def is_valid_year(year: str) -> bool:
     if year > 2024 or year < 1900:
         print('Invalid year. Please try again.')
         return False
-    else:  
-        return True
+    return True
 
 def search_by_artist():
     artist = input('Please enter the artist name: ')
@@ -202,14 +192,10 @@ def search_by_artist():
 def delete_song():
     song_name = input('Please enter the name of the song you want to delete: ')
     found = False
-    for x in list_of_songs:
-        if x.song_name.lower() == song_name.lower():
-            file = open('python\songs.csv', 'w', encoding='utf-8')
-            list_of_songs.remove(x)
-            file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
-            for y in list_of_songs:
-                file.write(f'{y.artist_name};{y.album_name};{y.song_name};{y.track_number};{y.genre};{y.year};{y .length};\n')
-            print(f'{x.song_name} by {x.artist_name} has been deleted.')
+    for song in list_of_songs:
+        if song.song_name.lower() == song_name.lower():
+            list_of_songs.remove(song)
+            print(f'{song.song_name} by {song.artist_name} has been deleted.')
             found = True
             break
     if not found:
@@ -233,17 +219,11 @@ def sort_songs():
     print('Songs sorted successfully.')
     
     filename = input('Please enter the filename to save the sorted songs: ')
-    with open(filename+".csv", 'w', encoding='utf-8') as file:
+    with open(filename + ".csv", 'w', encoding='utf-8') as file:
         file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
         for song in list_of_songs:
             file.write(f'{song.artist_name},{song.album_name},{song.song_name},{song.track_number},{song.genre},{song.year},{song.length}\n')
     print('Sorted songs saved to file successfully.')
-
-def is_valid_track_number(track_number: str) -> bool:
-    if not track_number.isnumeric():
-        print('Invalid track number. Please try again.')
-        return False
-    return True
 
 def update_song_info():
     song_name = input('Please enter the name of the song you want to update: ')
@@ -306,13 +286,11 @@ def update_song_info():
 def get_track_number():
     given_song = input('Please enter the desired song: ')
     found = False
-    for x in list_of_songs:
-        if x.song_name == given_song:
-            print(f'\nTrack number: {x.track_number}\nArtist: {x.artist_name}\nAlbum: {x.album_name}')
+    for song in list_of_songs:
+        if song.song_name == given_song:
+            print(f'\nTrack number: {song.track_number}\nArtist: {song.artist_name}\nAlbum: {song.album_name}')
             found = True
     if not found:
         print('No songs found for the given track number.')
-        
 
 main()
-

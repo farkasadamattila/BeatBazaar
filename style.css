@@ -50,3 +50,15 @@ body {
 .padding {
     padding-top: 75px;
 }
+
+.omitrix {
+    margin-left: 80px;
+    margin-right: 175px;
+}
+
+.omitrix:hover {
+    transform: scale(1.2);
+    text-shadow: 3px 3px 5px rgb(255, 0, 0);
+    margin-left: 130px;
+    
+}

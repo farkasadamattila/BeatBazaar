@@ -54,13 +54,15 @@ def base_menu():
     print("\t8. Sort songs")
     print("\t9. Update song information")
     print("\t10. Get track number")
+    print("\t11. Clear browser history")
+    print("\t12. Show browser history")
     print("\t0. Exit")
     print()
 
 def choose_option() -> int:
     while True:
         chosen = input("Choice: ")
-        if chosen.isdigit() and 0 <= int(chosen) <= 10:
+        if chosen.isdigit() and 0 <= int(chosen) <= 12:
             return int(chosen)
 
 def sub_menu(choice: int) -> bool:
@@ -88,6 +90,10 @@ def sub_menu(choice: int) -> bool:
         return True
     elif choice == 10:
         get_track_number()
+    elif choice == 11:
+        clear_recent_songs()
+    elif choice == 12:
+        show_recent_songs()
     return False
 
 def get_track_length():
@@ -96,6 +102,7 @@ def get_track_length():
     for song in list_of_songs:
         if song.song_name == answer:
             print(f'The length of the track is: {song.minutes}:{song.seconds}, and it was made by {song.artist_name}')
+            add_to_recent_songs(song)
             found = True
             break
     if not found:
@@ -109,6 +116,7 @@ def longest_song():
     for song in list_of_songs:
         if song.length_2 == longest:
             print(f'The longest song is: {song.song_name} by {song.artist_name} with a length of {song.length}')
+            add_to_recent_songs(song)
 
 def shortest_song():
     shortest = 1000
@@ -118,6 +126,7 @@ def shortest_song():
     for song in list_of_songs:
         if song.length_2 == shortest:
             print(f'The shortest song is: {song.song_name} by {song.artist_name} with a length of {song.length}')
+            add_to_recent_songs(song)
 
 def add_song(filename: str):
     artist = input('Please enter the artist: ')
@@ -144,6 +153,11 @@ def add_song(filename: str):
     
     with open(filename, 'a', encoding='utf-8') as file:
         file.write(f'{artist};{album};{song};{track_number};{genre};{year};{length}\n')
+    file.close()
+    load_from_file(filename)
+    for song in list_of_songs:
+        added_song = song
+    add_to_recent_songs(added_song)
 
 def get_genre():
     existing_genres = ['Rock', 'Pop', 'Hip-Hop', 'Grunge', 'Metal', 'Techno', 'Jazz', 'Phonk', 'Country', 'Classical']
@@ -155,6 +169,7 @@ def get_genre():
             for song in list_of_songs:
                 if song.genre.lower() == genre.lower():
                     print(f'Song: {song.song_name}, Artist: {song.artist_name}')
+                    add_to_recent_songs(song)
             break
 
 def is_valid_genre(genre: str) -> bool:
@@ -186,6 +201,7 @@ def search_by_artist():
         if song.artist_name.lower() == artist.lower():
             print(f'Song: {song.song_name}, Album: {song.album_name}, Track Number: {song.track_number}')
             found = True
+            add_to_recent_songs(song)
     if not found:
         print('No songs found for the given artist.')
 
@@ -272,6 +288,7 @@ def update_song_info():
             
             print(f'Song information updated for {song.song_name}.')
             found = True
+            add_to_recent_songs(song)
             break
     
     if not found:
@@ -290,7 +307,29 @@ def get_track_number():
         if song.song_name == given_song:
             print(f'\nTrack number: {song.track_number}\nArtist: {song.artist_name}\nAlbum: {song.album_name}')
             found = True
+            add_to_recent_songs(song)
     if not found:
         print('No songs found for the given track number.')
 
+def add_to_recent_songs(song:Song):
+    file = open("python/recent_songs.csv", "a", encoding="utf8")
+    file.write(f"{song.artist_name};{song.album_name};{song.song_name};{song.track_number};{song.genre};{song.year};{song.length}\n")
+    file.close()
+
+def clear_recent_songs():
+    file = open("python/recent_songs.csv", "w", encoding="utf8")
+    file.write("Artist;Album;Song;Track Number;Genre;Year;Length\n")
+    print("History cleared")
+    file.close()
+
+def show_recent_songs():
+    system("cls")
+    file = open("python/recent_songs.csv", "r", encoding="utf8")
+    file.readline()
+    recent_songs : list[Song] = []
+    for song in file:
+        recent_songs.append(Song(song))
+    for song in recent_songs:
+        print(f"Artist's name: {song.artist_name}, Album's name: {song.album_name}, Song's name: {song.song_name}, Track number: {song.track_number}, Genre: {song.genre}, Relased in: {song.year}, Lenght: {song.length}")
+    file.close()
 main()

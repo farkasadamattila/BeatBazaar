@@ -51,3 +51,13 @@ body {
     margin-left: 130px;
     
 }
+
+.carouseldiv {
+    
+    
+    
+    size: 50%;
+    position: fixed;
+    left: 50%;
+    
+}

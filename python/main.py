@@ -1,5 +1,10 @@
 from classes import Song, Tour
 from os import system
+import pygame
+pygame.init()
+
+my_sound = pygame.mixer.Sound('songs/first_song.mp3')
+my_sound.play()
 
 list_of_songs: list[Song] = []
 tours: list[Tour] = []
@@ -44,20 +49,21 @@ def base_menu():
         ''')
     print("Welcome to the music database")
     print("Main menu:")
-    print("\t1. Get track length")
-    print("\t2. Find longest song")
-    print("\t3. Find shortest song")
-    print("\t4. Get songs by genre")
-    print("\t5. Add a new song")
-    print("\t6. Search songs by artist")
-    print("\t7. Delete a song")
-    print("\t8. Sort songs")
-    print("\t9. Update song information")
-    print("\t10. Get track number")
-    print("\t11. Clear browser history")
-    print("\t12. Show browser history")
+    print("\t1. Play song")
+    print("\t2. Get track length")
+    print("\t3. Find longest song")
+    print("\t4. Find shortest song")
+    print("\t5. Get songs by genre")
+    print("\t6. Add a new song")
+    print("\t7. Search songs by artist")
+    print("\t8. Delete a song")
+    print("\t9. Sort songs")
+    print("\t10. Update song information")
+    print("\t11. Get track number")
+    print("\t12. Clear browser history")
+    print("\t13. Show browser history")
     print("\t0. Exit")
-    print()
+    
 
 def choose_option() -> int:
     while True:
@@ -68,33 +74,46 @@ def choose_option() -> int:
 def sub_menu(choice: int) -> bool:
     system('cls')
     if choice == 1:
-        get_track_length()
+        play_song()
     elif choice == 2:
-        longest_song()
+        get_track_length()
     elif choice == 3:
-        shortest_song()
+        longest_song()
     elif choice == 4:
-        get_genre()
+        shortest_song()
     elif choice == 5:
-        add_song('python/songs.csv')
+        get_genre()
     elif choice == 6:
-        search_by_artist()
+        add_song('python/songs.csv')
     elif choice == 7:
-        delete_song()
+        search_by_artist()
     elif choice == 8:
-        sort_songs()
+        delete_song()
     elif choice == 9:
+        sort_songs()
+    elif choice == 10:
         update_song_info()
     elif choice == 0:
         print("Goodbye!")
         return True
-    elif choice == 10:
-        get_track_number()
     elif choice == 11:
-        clear_recent_songs()
+        get_track_number()
     elif choice == 12:
+        clear_recent_songs()
+    elif choice == 13:
         show_recent_songs()
     return False
+
+def play_song():
+    song_name = input('Please enter the name of the song you want to play: ')
+    found = False
+    for song in list_of_songs:
+        if song.song_name.lower() == song_name.lower():
+            print(f'Playing {song.song_name} by {song.artist_name}')
+            found = True
+            break
+    if not found:
+        print('Song not found.')
 
 def get_track_length():
     answer = input('Please enter the name of the track: ')

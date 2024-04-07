@@ -1,4 +1,4 @@
-Artist,Album,Song,Track Number,Genre,Year,Length
+Artist;Album;Song;Track Number;Genre;Year;Length
 AC/DC;Back in Black;Hells Bells;1;Rock;1980;5:12;
 AC/DC;Back in Black;Shoot to Thrill;2;Rock;1980;5:17;
 AC/DC;Back in Black;What Do You Do for Money Honey;3;Rock;1980;3:33;
@@ -98,3 +98,26 @@ Freddie Dredd;Freddie's Inferno;Fraud;8;Phonk;2018;1:55;
 Freddie Dredd;Freddie's Inferno;Treachery;9;Phonk;2018;2:01;
 Freddie Dredd;Freddie's Inferno;Regardless;10;Phonk;2018;2:17;
 Freddie Dredd;Freddie's Inferno;Tip-Toe;11;Phonk;2018;2:00;
+Iron Maiden;The Number Of The Beast;Invaders;1;Metal;1982;3:24
+Iron Maiden;The Number Of The Beast;Children Of The Damned;2;Metal;1982;4:35
+Iron Maiden;The Number Of The Beast;The Prisoner;3;Metal;1982;6:02
+Iron Maiden;The Number Of The Beast;22 Acacia Avenue;4;Metal;1982;6:36
+Iron Maiden;The Number Of The Beast;The Number Of The Beast;5;Metal;1982;4:51
+Iron Maiden;The Number Of The Beast;Run To The Hills;6;Metal;1982;3:54
+Iron Maiden;The Number Of The Beast;Gangland;7;Metal;1982;3:49
+Iron Maiden;The Number Of The Beast;Hallowed Be Thy Name;8;Metal;1982;7:11
+Ozzy Osbourne;No More Tears;Mr. Tinkertrain;1;Metal;1991;5:55
+Ozzy Osbourne;No More Tears;I Don't Want to Change the World;2;Metal;1991;4:06
+Ozzy Osbourne;No More Tears;Mama, I'm Coming Home;3;Metal;1991;	4:11
+Ozzy Osbourne;No More Tears;Desire;4;Metal;1991;5:46
+Ozzy Osbourne;No More Tears;No More Tears;5;Metal;1991;7:24
+Ozzy Osbourne;No More Tears;Won't Be Coming Home (S.I.N.);6;Metal;1991;4:47
+Ozzy Osbourne;No More Tears;"Hellraiser;7;Metal;1991;4:52
+Ozzy Osbourne;No More Tears;Time After Time;8;Metal;1991;4:20
+Ozzy Osbourne;No More Tears;Zombie Stomp;9;Metal;1991;6:14
+Ozzy Osbourne;No More Tears;A.V.H.;10;Metal;1991;4:13
+Ozzy Osbourne;No More Tears;Road to Nowhere;11;Metal;1991;5:10
+
+
+
+

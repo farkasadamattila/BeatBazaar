@@ -1,11 +1,5 @@
 from classes import Song, Tour
 from os import system
-import pygame
-pygame.init()
-
-my_sound = pygame.mixer.Sound('songs/first_song.mp3')
-my_sound.play()
-
 list_of_songs: list[Song] = []
 tours: list[Tour] = []
 
@@ -227,10 +221,14 @@ def search_by_artist():
 def delete_song():
     song_name = input('Please enter the name of the song you want to delete: ')
     found = False
-    for song in list_of_songs:
-        if song.song_name.lower() == song_name.lower():
-            list_of_songs.remove(song)
-            print(f'{song.song_name} by {song.artist_name} has been deleted.')
+    for x in list_of_songs:
+        if x.song_name.lower() == song_name.lower():
+            file = open('python\songs.csv', 'w', encoding='utf-8')
+            list_of_songs.remove(x)
+            file.write('Artist,Album,Song,Track Number,Genre,Year,Length\n')
+            for y in list_of_songs:
+                file.write(f'{y.artist_name};{y.album_name};{y.song_name};{y.track_number};{y.genre};{y.year};{y .length};\n')
+            print(f'{x.song_name} by {x.artist_name} has been deleted.')
             found = True
             break
     if not found:
